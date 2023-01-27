@@ -1,5 +1,7 @@
 package com.app.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +18,15 @@ public class UserServiceImpl implements IUserService {
 	
 	@Override
 	public User createNewUser(User u) {
-		return repo.save(u);	 
+		User user  = repo.save(u);	
+		System.out.println("in service "+user);
+		return user;
 	}
 
+	@Override
+	public Optional<User> getUserById(Integer id) {
+		return repo.findById(id);
+	}
+
+	
 }
