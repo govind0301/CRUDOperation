@@ -1,5 +1,9 @@
 package com.app.pojos;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -7,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -17,20 +22,21 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO )
 	private Integer uid;
-	@Column(length = 20)
+	@Column(length = 20,name = "first_name")
 	@NotBlank //it check string is not null and greater than zero
-	private String first_Name;
-	@Column(length = 20)
+	private String firstName;
+	@Column(length = 20,name = "last_name")
 	@NotBlank
-	private String last_Name;
-	@Column(length = 50)
-	private String address;
+	private String lastName;
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 	@Column(length = 35)
 	@Email
 	@NotBlank
 	private String email;
+	private LocalDate dob;
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+	private List<Address> address;
 	
 	public User() {
 		super();
@@ -38,13 +44,13 @@ public class User {
 	}
 	
 	
-	public User(Integer uid, String first_Name, String last_Name, String address, Gender gender) {
+	public User(Integer uid, String first_Name, String last_Name, Gender gender,LocalDate dob) {
 		super();
 		this.uid = uid;
-		this.first_Name = first_Name;
-		this.last_Name = last_Name;
-		this.address = address;
+		this.firstName = first_Name;
+		this.lastName = last_Name;
 		this.gender = gender;
+		this.dob = dob;
 	}
 
 
@@ -54,23 +60,27 @@ public class User {
 	public void setUid(Integer uid) {
 		this.uid = uid;
 	}
-	public String getFirst_Name() {
-		return first_Name;
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setFirst_Name(String first_Name) {
-		this.first_Name = first_Name;
+	public void setFirstName(String first_Name) {
+		this.firstName = first_Name;
 	}
-	public String getLast_Name() {
-		return last_Name;
+	public String getLastName() {
+		return lastName;
 	}
-	public void setLast_Name(String last_Name) {
-		this.last_Name = last_Name;
+	public void setLastName(String last_Name) {
+		this.lastName = last_Name;
 	}
-	public String getAddress() {
+	public List<Address> getAddress() {
 		return address;
 	}
-	public void setAddress(String address) {
+	public void setAddress(List<Address> address) {
 		this.address = address;
+		for(Address a : address)
+		{
+			a.setUser(this);
+		}
 	}
 	public Gender getGender() {
 		return gender;
@@ -87,10 +97,21 @@ public class User {
 		this.email = email;
 	}
 
+	
+	public LocalDate getDob() {
+		return dob;
+	}
+
+
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
+	}
+
+
 	@Override
 	public String toString() {
-		return "User [first_Name=" + first_Name + ", last_Name=" + last_Name + ", address=" + address + ", gender="
-				+ gender + ", email=" + email + "]";
+		return "User [first_Name=" + firstName + ", last_Name=" + lastName + ", address=" + address + ", gender="
+				+ gender + ", email=" + email + ",dob = "+ dob + "]";
 	}
 
 

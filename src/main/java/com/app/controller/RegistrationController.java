@@ -36,6 +36,7 @@ public class RegistrationController {
 			return new ResponseEntity<>(userController,HttpStatus.CREATED);
 		}
 		catch (Exception e) {
+			System.out.println("exception "+ e);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -49,6 +50,45 @@ public class RegistrationController {
 			return new ResponseEntity<>(user,HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	@GetMapping("/details")
+	public ResponseEntity<?> getAllUser()
+	{
+		try {
+			return new ResponseEntity<>(service.getAllUser(),HttpStatus.OK);
+		}
+		catch(Exception ex)
+		{
+			System.out.println("exeception in "+ex);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping("/detailsByName/{name}")
+	public ResponseEntity<?> getUserByName(@PathVariable String name){
+		try {
+			return new ResponseEntity<>(service.getUserByName(name),HttpStatus.OK);
+		}
+		catch(Exception ex)
+		{
+			System.out.println("exception in "+ex);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping("/detailsByLastName/{lastName}")
+	public ResponseEntity<?> getUserByLastName(@PathVariable String lastName)
+	{
+		try
+		{
+			return new ResponseEntity<>(service.getUserByLastNameStartingWith(lastName),HttpStatus.OK);
+		}
+		catch(Exception ex)
+		{
+			System.out.println("exception in"+ ex);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 	
 }
