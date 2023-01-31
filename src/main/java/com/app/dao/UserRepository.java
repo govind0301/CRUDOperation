@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.app.pojos.User;
+import com.app.pojos.Users;
 
-public interface UserRepository extends JpaRepository<User, Integer> {
-	List<User> findByFirstName(String name);
-	List<User> findByLastNameStartingWith(String name);
+public interface UserRepository extends JpaRepository<Users, Integer> {
+	List<Users> findByFirstName(String name);
+	List<Users> findByLastNameStartingWith(String name);
 }

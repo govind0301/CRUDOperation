@@ -13,44 +13,57 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table
-public class User {
+@Table(uniqueConstraints = {
+		@UniqueConstraint(columnNames = {"email"})
+})
+public class Users {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO )
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@SequenceGenerator(initialValue = 10001, name = "usr_seq", sequenceName = "usr_sequence")
 	private Integer uid;
+	
 	@Column(length = 20,name = "first_name")
-	@NotBlank //it check string is not null and greater than zero
+	@NotBlank(message = "first name can't be blank") //it check string is not null and greater than zero
 	private String firstName;
+	
 	@Column(length = 20,name = "last_name")
-	@NotBlank
+	@NotBlank(message = "last name  can't be blank")
 	private String lastName;
+	
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
+	
 	@Column(length = 35)
-	@Email
-	@NotBlank
+	@Email(message = "Please provide a valid email id")
+	@NotBlank(message = "email id  can't be blank")
 	private String email;
+	
 	private LocalDate dob;
+	@NotBlank(message = "password can't be blank")
+	private String password;
+	
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
 	private List<Address> address;
 	
-	public User() {
+	public Users() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
 	
-	public User(Integer uid, String first_Name, String last_Name, Gender gender,LocalDate dob) {
+	public Users(Integer uid, String first_Name, String last_Name, Gender gender,LocalDate dob,String password) {
 		super();
 		this.uid = uid;
 		this.firstName = first_Name;
 		this.lastName = last_Name;
 		this.gender = gender;
 		this.dob = dob;
+		this.password = password;
 	}
 
 
@@ -106,12 +119,23 @@ public class User {
 	public void setDob(LocalDate dob) {
 		this.dob = dob;
 	}
+	
+	
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 
 	@Override
 	public String toString() {
 		return "User [first_Name=" + firstName + ", last_Name=" + lastName + ", address=" + address + ", gender="
-				+ gender + ", email=" + email + ",dob = "+ dob + "]";
+				+ gender + ", email=" + email + ",dob = "+ dob + ", password ="+ password +"]";
 	}
 
 

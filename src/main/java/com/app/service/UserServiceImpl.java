@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.pojos.Address;
-import com.app.pojos.User;
+import com.app.pojos.Users;
 
 import com.app.dao.UserRepository;
 @Service
@@ -19,7 +19,7 @@ public class UserServiceImpl implements IUserService {
 	public UserRepository repo;
 	
 	@Override
-	public User createNewUser(User u) {
+	public Users createNewUser(Users u) {
 		Address address = null;
 		List<Address> addr = u.getAddress();
 		for(Address a : addr)
@@ -27,28 +27,28 @@ public class UserServiceImpl implements IUserService {
 			address = a;
 		}
 		System.out.println("address" + address);
-		User user  = repo.save(u);	
+		Users user  = repo.save(u);	
 		System.out.println("in service "+user);
 		return user;
 	}
 
 	@Override
-	public Optional<User> getUserById(Integer id) {
+	public Optional<Users> getUserById(Integer id) {
 		return repo.findById(id);
 	}
 
 	@Override
-	public List<User> getAllUser() {
+	public List<Users> getAllUser() {
 		return repo.findAll();
 	}
 
 	@Override
-	public List<User> getUserByName(String name) {
+	public List<Users> getUserByName(String name) {
 		return repo.findByFirstName(name);
 	}
 
 	@Override
-	public List<User> getUserByLastNameStartingWith(String name) {
+	public List<Users> getUserByLastNameStartingWith(String name) {
 		return repo.findByLastNameStartingWith(name);
 	}
 	

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.pojos.User;
+import com.app.pojos.Users;
 import com.app.service.IUserService;
 
 @RestController
@@ -26,11 +26,11 @@ public class RegistrationController {
 	}
 	
 	@PostMapping("/registration")
-	public ResponseEntity<?> SaveUserDetails(@RequestBody User u)
+	public ResponseEntity<?> SaveUserDetails(@RequestBody Users u)
 	{
 		try {
 			System.out.println("User in "+ u.toString());
-			User userController = service.createNewUser(u);
+			Users userController = service.createNewUser(u);
 			System.out.println("in Controller"
 					+ " "+userController);
 			return new ResponseEntity<>(userController,HttpStatus.CREATED);
@@ -44,7 +44,7 @@ public class RegistrationController {
 	@GetMapping("/details/{userId}")
 	public ResponseEntity<?> getUserDetailById(@PathVariable Integer userId)
 	{
-		Optional<User> user = service.getUserById(userId);
+		Optional<Users> user = service.getUserById(userId);
 		if(user.isPresent())
 		{
 			return new ResponseEntity<>(user,HttpStatus.OK);

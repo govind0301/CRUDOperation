@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -18,7 +19,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name="address")
 public class Address {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@SequenceGenerator(initialValue = 2001, name = "addr_seq", sequenceName = "addr_sequence")
 	private Integer id;
 	@Column(length=100)
 	private String houseNo;
@@ -42,10 +44,10 @@ public class Address {
 	@ManyToOne
 	@JoinColumn(name="user_id",nullable = false)
 	@JsonIgnore
-	private User user;
+	private Users user;
 	
 	public Address(String houseNo, String streetName, String city, String country, String state, String district,
-			Integer pincode,User user) {
+			Integer pincode,Users user) {
 		super();
 		this.houseNo = houseNo;
 		this.streetName = streetName;
@@ -106,10 +108,10 @@ public class Address {
 	public void setPincode(Integer pincode) {
 		this.pincode = pincode;
 	}
-	public User getUser() {
+	public Users getUser() {
 		return user;
 	}
-	public void setUser(User user) {
+	public void setUser(Users user) {
 		this.user = user;
 	}
 	public AddressType getAddressType() {
